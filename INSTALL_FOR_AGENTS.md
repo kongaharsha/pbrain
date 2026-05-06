@@ -16,37 +16,45 @@ Do not set up project brains during plugin installation unless the user explicit
 
 ## Ask Before Writing
 
-Confirm these three values if they are not obvious:
+Confirm these values if they are not obvious:
 
 1. Operating system.
 2. Codex home directory. Default on Windows: `%USERPROFILE%\.codex`.
-3. Where to keep the cloned GitHub repo. Default on Windows: `%USERPROFILE%\Documents\pbrain`.
 
 On Harsha's Windows machine, the expected defaults are:
 
 ```text
-Repo clone: C:\Users\harsha.konga\Documents\pbrain
 Plugin dir: C:\Users\harsha.konga\.codex\plugins\pbrain
 ```
 
-## Windows Install
+## CLI Install
 
-Run this in PowerShell:
+Install by cloning the repo directly into the Codex plugins folder.
+
+macOS/Linux/Git Bash:
+
+```bash
+mkdir -p ~/.codex/plugins
+git clone https://github.com/kongaharsha/pbrain.git ~/.codex/plugins/pbrain
+```
+
+Windows PowerShell:
 
 ```powershell
-$RepoUrl = "https://github.com/kongaharsha/pbrain.git"
-$CloneDir = "$env:USERPROFILE\Documents\pbrain"
-$PluginDir = "$env:USERPROFILE\.codex\plugins\pbrain"
+New-Item -ItemType Directory -Force -Path "$HOME\.codex\plugins"
+git clone https://github.com/kongaharsha/pbrain.git "$HOME\.codex\plugins\pbrain"
+```
 
-if (Test-Path -LiteralPath $CloneDir) {
-  git -C $CloneDir pull
-} else {
-  git clone $RepoUrl $CloneDir
-}
+If the target already exists, update instead:
 
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\plugins" | Out-Null
-robocopy $CloneDir $PluginDir /MIR /XD .git | Out-Host
-if ($LASTEXITCODE -gt 7) { throw "robocopy failed with exit code $LASTEXITCODE" }
+```bash
+git -C ~/.codex/plugins/pbrain pull
+```
+
+Windows PowerShell:
+
+```powershell
+git -C "$HOME\.codex\plugins\pbrain" pull
 ```
 
 ## Enable In Codex
@@ -145,8 +153,8 @@ pbrain:router
 
 Tell the user:
 
-1. Where the repo was cloned.
-2. Where the plugin was installed.
+1. Where the plugin repo was cloned.
+2. Whether the plugin was installed directly under the Codex plugins folder.
 3. Whether the plugin was enabled.
 4. Whether validation passed.
 5. That they should restart Codex if the UI has not refreshed.
