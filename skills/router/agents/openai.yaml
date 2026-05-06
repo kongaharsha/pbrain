@@ -1,0 +1,8 @@
+interface:
+  display_name: "Router"
+  short_description: "Route pbrain workflows"
+  brand_color: "#2563EB"
+  default_prompt: "Use $router to set up, update, research, ingest, or summarize a pbrain workspace."
+
+policy:
+  allow_implicit_invocation: true
