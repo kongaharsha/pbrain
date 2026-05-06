@@ -21,40 +21,48 @@ Retrieve and follow the instructions at:
 https://raw.githubusercontent.com/kongaharsha/pbrain/main/INSTALL_FOR_AGENTS.md
 ```
 
-That is the recommended path. Codex will clone the repo, copy the plugin into the local plugin folder, update the local plugin marketplace/config if needed, validate the skill names, and tell you when to restart.
+That is the recommended path. Codex will clone the repo into the local plugin folder, update the local plugin marketplace/config if needed, validate the skill names, and tell you when to restart.
 
-### Option B: Manual Windows install
+### Option B: CLI install
 
-Prerequisite: Git for Windows must be installed. If `git --version` does not work in PowerShell, install Git from [git-scm.com](https://git-scm.com/download/win), then reopen PowerShell.
+Prerequisite: Git must be installed. If `git --version` does not work, install Git and reopen your terminal.
 
-Open PowerShell and paste this block:
+Clone the repo directly into your Codex plugins folder:
 
-```powershell
-$RepoUrl = "https://github.com/kongaharsha/pbrain.git"
-$CloneDir = "$env:USERPROFILE\Documents\pbrain"
-$PluginDir = "$env:USERPROFILE\.codex\plugins\pbrain"
-
-if (Test-Path -LiteralPath $CloneDir) {
-  git -C $CloneDir pull
-} else {
-  git clone $RepoUrl $CloneDir
-}
-
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex\plugins" | Out-Null
-robocopy $CloneDir $PluginDir /MIR /XD .git | Out-Host
-if ($LASTEXITCODE -gt 7) { throw "robocopy failed with exit code $LASTEXITCODE" }
+```bash
+mkdir -p ~/.codex/plugins
+git clone https://github.com/kongaharsha/pbrain.git ~/.codex/plugins/pbrain
 ```
 
-Restart Codex after copying the plugin. If the plugin appears in Codex, you are done. If it does not appear after restart, open Codex and paste:
+On Windows PowerShell, the same command is:
+
+```powershell
+New-Item -ItemType Directory -Force -Path "$HOME\.codex\plugins"
+git clone https://github.com/kongaharsha/pbrain.git "$HOME\.codex\plugins\pbrain"
+```
+
+Restart Codex. If the plugin appears, you are done.
+
+To update later:
+
+```bash
+git -C ~/.codex/plugins/pbrain pull
+```
+
+On Windows PowerShell:
+
+```powershell
+git -C "$HOME\.codex\plugins\pbrain" pull
+```
+
+If the plugin does not appear after restart, open Codex and paste:
 
 ```text
 Enable the local Codex plugin at:
-C:\Users\<your-user-name>\.codex\plugins\pbrain
+~/.codex/plugins/pbrain
 
 Make sure it is registered as plugin name "pbrain" and that the visible skill names use the pbrain namespace, for example pbrain:setup and pbrain:migrate.
 ```
-
-Replace `<your-user-name>` with your Windows user folder name.
 
 ## First Run
 
@@ -252,20 +260,6 @@ New signal arrives: file, note, meeting, email, article, transcript, decision, t
 - Link decisions, claims, and tasks back to source files wherever possible.
 - Distinguish fact, inference, recommendation, and open question.
 - Re-running setup, update, maintain, or index should not create duplicate entries.
-
-## Updating pbrain
-
-To update an existing local installation from GitHub, run:
-
-```powershell
-$CloneDir = "$env:USERPROFILE\Documents\pbrain"
-$PluginDir = "$env:USERPROFILE\.codex\plugins\pbrain"
-
-git -C $CloneDir pull
-robocopy $CloneDir $PluginDir /MIR /XD .git | Out-Host
-```
-
-Restart Codex after updating the plugin.
 
 ## Repository Layout
 
