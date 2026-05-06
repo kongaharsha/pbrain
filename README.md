@@ -10,16 +10,6 @@ pbrain is the second version of the earlier [strategy-project](https://github.co
 
 > ~30 minutes to a fully working project brain. No database, no embeddings, no custom CLI. You install the plugin, answer a few setup questions, register your project folders, and schedule recurring checks.
 
-## Works Locally Or In Cloud Workspaces
-
-pbrain is markdown-first. It works anywhere Codex can read and write files:
-
-- Local Codex on Windows, macOS, or Linux.
-- A cloud Codex workspace attached to a GitHub repo.
-- A checked-out project folder inside a dev container or hosted workspace.
-
-The only requirement is that pbrain can write its local project files into the project folder. The optional global brain can live at `~/Project Brain/`, in a synced folder such as OneDrive or Dropbox, or in a separate Git-backed portfolio repo if you want the global cockpit available across machines.
-
 ## Install
 
 ### Option A: Ask Codex to install it
@@ -88,7 +78,7 @@ Use /pbrain:setup in this folder.
 Create a local pbrain for this project. Set up AGENTS.md, the context folder, folder map, TODO & Ideas, writing standards, and an initial workstream ledger.
 
 Before writing, check whether a global pbrain already exists at:
-~/Project Brain/
+C:\Users\<your-user-name>\Project Brain\
 
 If the global pbrain exists, register this project in it. If it does not exist, finish the local setup and tell me to run /pbrain:global-setup next.
 ```
@@ -103,7 +93,7 @@ Add pbrain to this existing project without moving, deleting, or renaming existi
 Avoid markdown sprawl. Routine decisions, changes, findings, source links, open questions, and next steps should go into the relevant WORKSTREAM.md ledger.
 
 Before writing, check whether a global pbrain already exists at:
-~/Project Brain/
+C:\Users\<your-user-name>\Project Brain\
 
 If the global pbrain exists, register this project in it. If it does not exist, finish the local migration and tell me to run /pbrain:global-setup next.
 ```
@@ -116,9 +106,7 @@ After at least one project has a local pbrain, run:
 Use /pbrain:global-setup.
 
 Create the global pbrain at:
-~/Project Brain/
-
-If this is a cloud workspace or repo-only setup, ask me whether the global brain should live in this repo, a separate portfolio repo, or a synced local folder.
+C:\Users\<your-user-name>\Project Brain\
 
 Ask me for the project folders I want tracked. For each folder, check whether it already has a local pbrain. If it does not, route that folder through /pbrain:migrate before registering it.
 
@@ -191,17 +179,8 @@ The default agent persona is **Mira**: an engagement-manager-level strategy part
 The global brain lives outside project folders, usually:
 
 ```text
-~/Project Brain/
+C:\Users\<your-user-name>\Project Brain\
 ```
-
-Common locations:
-
-| Environment | Example location |
-|---|---|
-| Windows local | `C:\Users\<user>\Project Brain\` |
-| macOS/Linux local | `/Users/<user>/Project Brain/` or `~/Project Brain/` |
-| Cloud workspace | A `project-brain/` folder in the workspace, or a separate portfolio repo. |
-| Synced folder | OneDrive, Dropbox, Google Drive, or another synced local folder. |
 
 | File or folder | Purpose |
 |---|---|
