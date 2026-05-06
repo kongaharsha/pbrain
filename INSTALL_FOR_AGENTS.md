@@ -8,6 +8,14 @@ Repository:
 https://github.com/kongaharsha/pbrain
 ```
 
+For stable installs, prefer a tagged release URL when one exists, for example:
+
+```text
+https://raw.githubusercontent.com/kongaharsha/pbrain/v0.1.0/INSTALL_FOR_AGENTS.md
+```
+
+If the user provides the `main` branch install URL, read and summarize this file before making changes. Ask before modifying local files, Codex config, or plugin marketplace settings.
+
 ## Goal
 
 Install pbrain in the right form for the user's agent environment:
@@ -15,7 +23,7 @@ Install pbrain in the right form for the user's agent environment:
 - For Claude Code: install it as a markdown playbook repo and tell Claude Code to read `RESOLVER.md` first.
 - For Codex: install it as a local plugin and verify that the visible skills are cleanly namespaced as `pbrain:<skill>`.
 
-Do not set up project brains during plugin installation unless the user explicitly asks. Installation and first-run setup are separate steps.
+Do not set up project brains during installation unless the user explicitly asks. Installation and first-run setup are separate steps.
 
 ## Ask Before Writing
 
@@ -127,7 +135,7 @@ Use the user's actual home path. Do not overwrite unrelated config.
 
 ## Validate
 
-After copying and enabling, verify:
+For Codex installs, after copying and enabling, verify:
 
 1. `.codex-plugin/plugin.json` parses as JSON.
 2. The `skills/` folder exists.
@@ -178,11 +186,11 @@ pbrain:router
 Tell the user:
 
 1. Where the plugin repo was cloned.
-2. Whether the plugin was installed directly under the Codex plugins folder.
-3. Whether the plugin was enabled.
+2. Whether it was installed as Claude Code playbooks, a Codex plugin, or both.
+3. Whether the Codex plugin was enabled, if applicable.
 4. Whether validation passed.
 5. That they should restart Codex if the UI has not refreshed.
 6. The first command to run next:
-   - `/pbrain:setup` in a new project folder.
-   - `/pbrain:migrate` in an existing project folder.
-   - `/pbrain:global-setup` after at least one local project is ready.
+   - `pbrain setup` in a new project folder.
+   - `pbrain migrate` in an existing project folder.
+   - `pbrain global setup` after at least one local project is ready.
