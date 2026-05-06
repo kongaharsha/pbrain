@@ -1,6 +1,6 @@
 # pbrain Install For Agents
 
-Use this file when a user asks you to install pbrain into Codex from GitHub.
+Use this file when a user asks you to install pbrain from GitHub for Claude Code, Codex, or another agent workflow.
 
 Repository:
 
@@ -10,7 +10,10 @@ https://github.com/kongaharsha/pbrain
 
 ## Goal
 
-Install pbrain as a local Codex plugin, enable it, and verify that the visible skills are cleanly namespaced as `pbrain:<skill>`.
+Install pbrain in the right form for the user's agent environment:
+
+- For Claude Code: install it as a markdown playbook repo and tell Claude Code to read `RESOLVER.md` first.
+- For Codex: install it as a local plugin and verify that the visible skills are cleanly namespaced as `pbrain:<skill>`.
 
 Do not set up project brains during plugin installation unless the user explicitly asks. Installation and first-run setup are separate steps.
 
@@ -19,7 +22,8 @@ Do not set up project brains during plugin installation unless the user explicit
 Confirm these values if they are not obvious:
 
 1. Operating system.
-2. Codex home directory. Default on Windows: `%USERPROFILE%\.codex`.
+2. Agent environment: Claude Code, Codex, or both.
+3. Codex home directory if Codex is used. Default on Windows: `%USERPROFILE%\.codex`.
 
 On Harsha's Windows machine, the expected defaults are:
 
@@ -27,7 +31,27 @@ On Harsha's Windows machine, the expected defaults are:
 Plugin dir: C:\Users\harsha.konga\.codex\plugins\pbrain
 ```
 
-## CLI Install
+## Claude Code Install
+
+Claude Code can use pbrain directly as markdown playbooks. Clone the repo to a stable local folder:
+
+```bash
+git clone https://github.com/kongaharsha/pbrain.git ~/pbrain
+```
+
+Then tell Claude Code:
+
+```text
+Use the pbrain playbooks at ~/pbrain.
+
+Read ~/pbrain/RESOLVER.md first. When I ask for pbrain setup, migration, global brain setup, updates, maintenance, ingestion, research, enrichment, task prep, or weekly summaries, route to the matching SKILL.md under ~/pbrain/skills/.
+
+Treat local project files as the source of truth. Keep routine decisions, changes, findings, source links, open questions, and next steps in WORKSTREAM.md ledgers. Avoid creating extra markdown files unless the output is durable.
+```
+
+If the user wants persistent project-level behavior, add that guidance to the project's `CLAUDE.md`.
+
+## Codex CLI Install
 
 Install by cloning the repo directly into the Codex plugins folder.
 
