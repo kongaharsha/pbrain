@@ -8,7 +8,7 @@ The operating principle is simple: local project folders are the source of truth
 
 pbrain is the second version of the earlier [strategy-project](https://github.com/kongaharsha/claude-skills/tree/main/strategy-project) pattern. The first version created durable local project context. pbrain keeps that discipline, then adds a global portfolio brain, scheduled maintenance, ingestion, research, enrichment, weekly summaries, and cleaner routing across skills.
 
-> ~30 minutes to a fully working project brain. No database, no embeddings, no custom CLI. You install the plugin, answer a few setup questions, register your project folders, and schedule recurring checks.
+> ~30 minutes to a fully working project brain. No database, no embeddings, no custom CLI. You install the Claude Code playbooks or Codex plugin, answer a few setup questions, register your project folders, and schedule recurring checks.
 
 ## Install
 
@@ -19,9 +19,17 @@ Open Claude Code or Codex and paste this into a new chat:
 ```text
 Retrieve and follow the instructions at:
 https://raw.githubusercontent.com/kongaharsha/pbrain/main/INSTALL_FOR_AGENTS.md
+
+Read the file first, summarize what it will change, and ask before modifying local files or Codex configuration.
 ```
 
 That is the recommended path. The agent will clone the repo, install it in the right place for your environment, validate the skill/playbook names, and tell you what to do next.
+
+For stable installs, prefer a tagged release URL once one exists, for example:
+
+```text
+https://raw.githubusercontent.com/kongaharsha/pbrain/v0.1.0/INSTALL_FOR_AGENTS.md
+```
 
 ### Option B: Claude Code playbook install
 
@@ -93,20 +101,24 @@ Set up pbrain in this order.
 For a new or mostly empty project folder, open Claude Code or Codex in that folder and paste:
 
 ```text
-Use /pbrain:setup in this folder.
+Use pbrain setup in this folder.
+
+If you are in Codex, use /pbrain:setup. If you are in Claude Code, read the setup playbook at ~/pbrain/skills/setup/SKILL.md and follow it.
 
 Create a local pbrain for this project. Set up AGENTS.md, the context folder, folder map, TODO & Ideas, writing standards, and an initial workstream ledger.
 
 Before writing, check whether a global pbrain already exists at:
 C:\Users\<your-user-name>\Project Brain\
 
-If the global pbrain exists, register this project in it. If it does not exist, finish the local setup and tell me to run /pbrain:global-setup next.
+If the global pbrain exists, register this project in it. If it does not exist, finish the local setup and tell me to run global setup next.
 ```
 
 For an existing project folder with files already in it, open Claude Code or Codex in that folder and paste:
 
 ```text
-Use /pbrain:migrate in this folder.
+Use pbrain migrate in this folder.
+
+If you are in Codex, use /pbrain:migrate. If you are in Claude Code, read the migrate playbook at ~/pbrain/skills/migrate/SKILL.md and follow it.
 
 Add pbrain to this existing project without moving, deleting, or renaming existing files. Scan the folder, identify workstreams, preserve the current folder structure, create or update AGENTS.md, create the context layer, and add WORKSTREAM.md ledgers only where they are useful.
 
@@ -115,7 +127,7 @@ Avoid markdown sprawl. Routine decisions, changes, findings, source links, open 
 Before writing, check whether a global pbrain already exists at:
 C:\Users\<your-user-name>\Project Brain\
 
-If the global pbrain exists, register this project in it. If it does not exist, finish the local migration and tell me to run /pbrain:global-setup next.
+If the global pbrain exists, register this project in it. If it does not exist, finish the local migration and tell me to run global setup next.
 ```
 
 ### 2. Create the global brain
@@ -123,12 +135,14 @@ If the global pbrain exists, register this project in it. If it does not exist, 
 After at least one project has a local pbrain, run:
 
 ```text
-Use /pbrain:global-setup.
+Use pbrain global setup.
+
+If you are in Codex, use /pbrain:global-setup. If you are in Claude Code, read the global setup playbook at ~/pbrain/skills/global-setup/SKILL.md and follow it.
 
 Create the global pbrain at:
 C:\Users\<your-user-name>\Project Brain\
 
-Ask me for the project folders I want tracked. For each folder, check whether it already has a local pbrain. If it does not, route that folder through /pbrain:migrate before registering it.
+Ask me for the project folders I want tracked. For each folder, check whether it already has a local pbrain. If it does not, route that folder through pbrain migrate before registering it.
 
 Create the global portfolio files:
 PROJECTS.md
@@ -147,11 +161,13 @@ The global brain should link back to local project folders. Do not duplicate det
 After global setup, run:
 
 ```text
-Use /pbrain:global-index.
+Use pbrain global index.
+
+If you are in Codex, use /pbrain:global-index. If you are in Claude Code, read the global index playbook at ~/pbrain/skills/global-index/SKILL.md and follow it.
 
 Scan all registered projects in the global pbrain. Refresh the project registry, active project status, stale workstreams, cross-project dependencies, and links back to local WORKSTREAM.md files.
 
-If a registered project is missing a valid local pbrain, flag it and recommend /pbrain:migrate for that folder.
+If a registered project is missing a valid local pbrain, flag it and recommend pbrain migrate for that folder.
 ```
 
 ### 4. Schedule recurring maintenance
@@ -159,7 +175,9 @@ If a registered project is missing a valid local pbrain, flag it and recommend /
 Run:
 
 ```text
-Use /pbrain:cron-scheduler.
+Use pbrain cron scheduler.
+
+If you are in Codex, use /pbrain:cron-scheduler. If you are in Claude Code, read the cron scheduler playbook at ~/pbrain/skills/cron-scheduler/SKILL.md and use the prompts below manually or in your preferred scheduler.
 
 Set up these recurring pbrain automations:
 
@@ -216,7 +234,7 @@ The global brain should not become a second copy of every project. It should sum
 
 ## The Skills
 
-pbrain ships 15 skills. The resolver (`RESOLVER.md`) tells Codex which skill to use for each task.
+pbrain ships 15 skills/playbooks. The resolver (`RESOLVER.md`) tells the agent which workflow to use for each task.
 
 ### Setup
 
