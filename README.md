@@ -1,8 +1,8 @@
 # pbrain
 
-Your AI agent is smart, but strategy projects are messy. pbrain gives each project a durable working memory.
+Your AI agent is smart, but strategy projects are messy. pbrain gives Claude Code or Codex a durable working memory.
 
-pbrain is a Codex plugin for strategy work: project setup, workstream ledgers, task rollups, source ingestion, research synthesis, weekly summaries, and portfolio-level operating rhythm. Each project keeps its own local brain. An optional global brain sits outside the projects and links them together.
+pbrain is a markdown-first project brain for strategy work: project setup, workstream ledgers, task rollups, source ingestion, research synthesis, weekly summaries, and portfolio-level operating rhythm. It can run as a Codex plugin, and it can also be used directly by Claude Code as a set of agent-readable playbooks. Each project keeps its own local brain. An optional global brain sits outside the projects and links them together.
 
 The operating principle is simple: local project folders are the source of truth; the global brain is an index, rollup, and cockpit. It should help you resume the work, see what changed, find the source behind a decision, and understand what needs attention next.
 
@@ -12,18 +12,38 @@ pbrain is the second version of the earlier [strategy-project](https://github.co
 
 ## Install
 
-### Option A: Ask Codex to install it
+### Option A: Ask your agent to install it
 
-Open Codex and paste this into a new chat:
+Open Claude Code or Codex and paste this into a new chat:
 
 ```text
 Retrieve and follow the instructions at:
 https://raw.githubusercontent.com/kongaharsha/pbrain/main/INSTALL_FOR_AGENTS.md
 ```
 
-That is the recommended path. Codex will clone the repo into the local plugin folder, update the local plugin marketplace/config if needed, validate the skill names, and tell you when to restart.
+That is the recommended path. The agent will clone the repo, install it in the right place for your environment, validate the skill/playbook names, and tell you what to do next.
 
-### Option B: CLI install
+### Option B: Claude Code playbook install
+
+Claude Code can use pbrain without a plugin runtime. Clone the repo wherever you keep agent playbooks:
+
+```bash
+git clone https://github.com/kongaharsha/pbrain.git ~/pbrain
+```
+
+Then open Claude Code in a project folder and paste:
+
+```text
+Use the pbrain playbooks at ~/pbrain.
+
+Read ~/pbrain/RESOLVER.md first. When I ask for pbrain setup, migration, global brain setup, updates, maintenance, ingestion, research, enrichment, task prep, or weekly summaries, route to the matching SKILL.md under ~/pbrain/skills/.
+
+Treat local project files as the source of truth. Keep routine decisions, changes, findings, source links, open questions, and next steps in WORKSTREAM.md ledgers. Avoid creating extra markdown files unless the output is durable.
+```
+
+If you want the instruction to persist for that project, add the same guidance to the project's `CLAUDE.md`.
+
+### Option C: Codex plugin install
 
 Prerequisite: Git must be installed. If `git --version` does not work, install Git and reopen your terminal.
 
@@ -70,7 +90,7 @@ Set up pbrain in this order.
 
 ### 1. Set up each project
 
-For a new or mostly empty project folder, open Codex in that folder and paste:
+For a new or mostly empty project folder, open Claude Code or Codex in that folder and paste:
 
 ```text
 Use /pbrain:setup in this folder.
@@ -83,7 +103,7 @@ C:\Users\<your-user-name>\Project Brain\
 If the global pbrain exists, register this project in it. If it does not exist, finish the local setup and tell me to run /pbrain:global-setup next.
 ```
 
-For an existing project folder with files already in it, open Codex in that folder and paste:
+For an existing project folder with files already in it, open Claude Code or Codex in that folder and paste:
 
 ```text
 Use /pbrain:migrate in this folder.
