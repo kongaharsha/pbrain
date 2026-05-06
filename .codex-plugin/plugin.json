@@ -1,0 +1,38 @@
+{
+  "name": "pbrain",
+  "version": "0.1.0",
+  "description": "AI-native project and portfolio brain for strategy workstreams, tasks, research, ingestion, and weekly operating memory.",
+  "author": {
+    "name": "Harsha Konga",
+    "email": "",
+    "url": ""
+  },
+  "license": "MIT",
+  "keywords": [
+    "strategy",
+    "project-management",
+    "knowledge-base",
+    "consulting",
+    "workstreams"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "pbrain",
+    "shortDescription": "Operate strategy projects as living brains.",
+    "longDescription": "pbrain manages local project context, workstream ledgers, cross-project portfolio indexes, task rollups, research, ingestion, maintenance, and end-of-week summaries. Local project folders stay authoritative; the global portfolio brain indexes and links across projects.",
+    "developerName": "Harsha Konga",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write",
+      "Research",
+      "Scheduling"
+    ],
+    "defaultPrompt": [
+      "Use pbrain to set up this strategy project.",
+      "Use pbrain to refresh my workstream ledgers.",
+      "Use pbrain to create an end-of-week summary."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
