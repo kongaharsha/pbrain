@@ -1,8 +1,0 @@
-interface:
-  display_name: "Global"
-  short_description: "Manage the portfolio brain"
-  brand_color: "#2563EB"
-  default_prompt: "Use $global to refresh the global pbrain portfolio cockpit."
-
-policy:
-  allow_implicit_invocation: true
