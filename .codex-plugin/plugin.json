@@ -1,7 +1,7 @@
 {
   "name": "pbrain",
-  "version": "0.1.0",
-  "description": "AI-native project and portfolio brain for strategy workstreams, tasks, research, ingestion, and weekly operating memory.",
+  "version": "0.3.0",
+  "description": "AI-native project and Central Brain operating system for source-grounded strategy work, daily control, conversation capture, and governed improvement.",
   "author": {
     "name": "Harsha Konga",
     "email": "",
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "pbrain",
     "shortDescription": "Operate strategy projects as living brains.",
-    "longDescription": "pbrain manages local project context, workstream ledgers, cross-project portfolio indexes, task rollups, research, ingestion, maintenance, and end-of-week summaries. Local project folders stay authoritative; the global portfolio brain indexes and links across projects.",
+    "longDescription": "pbrain manages private OneDrive Project Brains and a Central Brain through a compact set of source-grounded workflows. The Git repository contains only shareable skills, templates, and de-identified tests.",
     "developerName": "Harsha Konga",
     "category": "Productivity",
     "capabilities": [
@@ -30,8 +30,8 @@
     ],
     "defaultPrompt": [
       "Use pbrain to set up this strategy project.",
-      "Use pbrain to refresh my workstream ledgers.",
-      "Use pbrain to create an end-of-week summary."
+      "Use pbrain to reconcile approved project evidence into the operating ledger.",
+      "Use pbrain to prepare my project day and review its operating health."
     ],
     "brandColor": "#2563EB"
   }
