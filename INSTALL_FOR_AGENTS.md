@@ -1,111 +1,52 @@
-# pbrain Install For Agents
+# pbrain installation for agents
 
-Use this file when a user asks you to install pbrain from GitHub for Claude Code, Codex, or another agent workflow.
+Use this guide when the user asks to install pbrain from https://github.com/kongaharsha/pbrain.
 
-Repository:
+Read this guide and [RESOLVER.md](RESOLVER.md) before making changes. Resolve the user's operating system, agent environment, intended checkout, and Codex home from existing context. Summarize the concrete changes before installation; obtain approval when the user has not already authorized them. Preserve unrelated configuration and existing checkouts. Installation does not authorize project setup or recurring automations.
 
-```text
-https://github.com/kongaharsha/pbrain
-```
+## Markdown playbooks
 
-For stable installs, prefer a tagged release URL when one exists, for example:
-
-```text
-https://raw.githubusercontent.com/kongaharsha/pbrain/v0.1.0/INSTALL_FOR_AGENTS.md
-```
-
-If the user provides the `main` branch install URL, read and summarize this file before making changes. Ask before modifying local files, Codex config, or plugin marketplace settings.
-
-## Goal
-
-Install pbrain in the right form for the user's agent environment:
-
-- For Claude Code: install it as a markdown playbook repo and tell Claude Code to read `RESOLVER.md` first.
-- For Codex: install it as a local plugin and verify that the visible skills are cleanly namespaced as `pbrain:<skill>`.
-
-Do not set up project brains during installation unless the user explicitly asks. Installation and first-run setup are separate steps.
-
-## Ask Before Writing
-
-Confirm these values if they are not obvious:
-
-1. Operating system.
-2. Agent environment: Claude Code, Codex, or both.
-3. Codex home directory if Codex is used. Default on Windows: `%USERPROFILE%\.codex`.
-
-On Harsha's Windows machine, the expected defaults are:
-
-```text
-Plugin dir: C:\Users\harsha.konga\.codex\plugins\pbrain
-```
-
-## Claude Code Install
-
-Claude Code can use pbrain directly as markdown playbooks. Clone the repo to a stable local folder:
+Clone to a stable playbook folder:
 
 ```bash
 git clone https://github.com/kongaharsha/pbrain.git ~/pbrain
 ```
 
-Then tell Claude Code:
+Tell the agent to read `RESOLVER.md` first and follow the matching `skills/<name>/SKILL.md`. If the user wants persistent project guidance, add the actual checkout location to the project's agent instructions with their authorization.
 
-```text
-Use the pbrain playbooks at ~/pbrain.
+## Codex plugin checkout
 
-Read ~/pbrain/RESOLVER.md first. When I ask for pbrain setup, migration, global brain setup, updates, maintenance, ingestion, research, enrichment, task prep, or weekly summaries, route to the matching SKILL.md under ~/pbrain/skills/.
-
-Treat local project files as the source of truth. Keep routine decisions, changes, findings, source links, open questions, and next steps in WORKSTREAM.md ledgers. Avoid creating extra markdown files unless the output is durable.
-```
-
-If the user wants persistent project-level behavior, add that guidance to the project's `CLAUDE.md`.
-
-## Codex CLI Install
-
-Install by cloning the repo directly into the Codex plugins folder.
-
-macOS/Linux/Git Bash:
-
-```bash
-mkdir -p ~/.codex/plugins
-git clone https://github.com/kongaharsha/pbrain.git ~/.codex/plugins/pbrain
-```
-
-Windows PowerShell:
+The default Windows checkout is `%USERPROFILE%\.codex\plugins\pbrain`; use a configured Codex home when it differs.
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$HOME\.codex\plugins"
 git clone https://github.com/kongaharsha/pbrain.git "$HOME\.codex\plugins\pbrain"
 ```
 
-If the target already exists, update instead:
+On macOS or Linux:
 
 ```bash
-git -C ~/.codex/plugins/pbrain pull
+mkdir -p ~/.codex/plugins
+git clone https://github.com/kongaharsha/pbrain.git ~/.codex/plugins/pbrain
 ```
 
-Windows PowerShell:
+If the target exists, inspect its origin, branch, status, and local changes before updating. For a clean checkout on the tracked branch:
+
+```bash
+git -C ~/.codex/plugins/pbrain pull --ff-only
+```
 
 ```powershell
-git -C "$HOME\.codex\plugins\pbrain" pull
+git -C "$HOME\.codex\plugins\pbrain" pull --ff-only
 ```
 
-## Enable In Codex
+Do not overwrite a non-Git directory, reset local changes, or replace another repository. Reconcile the existing installation with the user when necessary.
 
-If Codex does not automatically discover the plugin, merge pbrain into the user's local Codex plugin marketplace and enable it. Preserve existing plugins and marketplaces.
+## Registration
 
-Expected local plugin folder:
+Cloning the folder does not confirm that the host has enabled the plugin. Use the host's available plugin registration mechanism and inspect its existing local marketplace/configuration format. Preserve other plugins and settings; do not invent a registration format or assume automatic discovery.
 
-```text
-%USERPROFILE%\.codex\plugins\pbrain
-```
-
-Expected plugin manifest:
-
-```text
-%USERPROFILE%\.codex\plugins\pbrain\.codex-plugin\plugin.json
-```
-
-The plugin manifest must have:
+The package entry point is `.codex-plugin/plugin.json`:
 
 ```json
 {
@@ -114,83 +55,32 @@ The plugin manifest must have:
 }
 ```
 
-If this Codex installation uses a local marketplace file, ensure it has a pbrain entry without deleting other entries:
+Verify registration and visible names using the host's tools when available. A restart may be needed to reload skills. Report enabled status as unverified if it cannot be checked.
+
+## Package validation
+
+1. Parse `.codex-plugin/plugin.json` as JSON and confirm its skill path exists.
+2. Confirm all ten skill directories contain `SKILL.md` and their frontmatter names match their directories.
+3. Confirm `RESOLVER.md` and `assets/templates/` are present.
+4. Confirm the package contains reusable instructions and templates rather than project evidence or conversation archives.
+
+The expected visible skill names are:
 
 ```text
-%USERPROFILE%\.codex\.agents\plugins\marketplace.json
-```
-
-If this Codex installation uses `config.toml` plugin enablement, preserve existing config and ensure pbrain is enabled. A typical local setup uses:
-
-```toml
-[marketplaces.pbrain-local]
-source_type = "local"
-source = "C:\\Users\\<user>\\.codex"
-
-[plugins."pbrain@pbrain-local"]
-enabled = true
-```
-
-Use the user's actual home path. Do not overwrite unrelated config.
-
-## Validate
-
-For Codex installs, after copying and enabling, verify:
-
-1. `.codex-plugin/plugin.json` parses as JSON.
-2. The `skills/` folder exists.
-3. Every skill folder has a `SKILL.md`.
-4. Folder names match SKILL frontmatter `name`.
-5. The skill list is:
-
-```text
-cron-scheduler
-daily-task-manager
-daily-task-prep
-enrich
-eow-summary
-global
-global-index
-global-setup
-ingest
-maintain
-migrate
-research
-router
-setup
-update
-```
-
-Expected visible names after Codex restart:
-
-```text
-pbrain:setup
-pbrain:migrate
-pbrain:global-setup
-pbrain:global-index
-pbrain:global
+pbrain:automation-scheduler
+pbrain:conversation-capture
+pbrain:daily-prep
 pbrain:daily-task-manager
-pbrain:daily-task-prep
-pbrain:cron-scheduler
-pbrain:update
-pbrain:maintain
-pbrain:eow-summary
-pbrain:enrich
-pbrain:research
-pbrain:ingest
-pbrain:router
+pbrain:enrich-brain
+pbrain:improve-skill
+pbrain:operating-review
+pbrain:project-setup
+pbrain:project-update
+pbrain:skill-evals
 ```
 
-## Final User Message
+For playbook-only use, these names identify the corresponding directory under `skills/`; a plugin runtime is not required.
 
-Tell the user:
+## Handoff
 
-1. Where the plugin repo was cloned.
-2. Whether it was installed as Claude Code playbooks, a Codex plugin, or both.
-3. Whether the Codex plugin was enabled, if applicable.
-4. Whether validation passed.
-5. That they should restart Codex if the UI has not refreshed.
-6. The first command to run next:
-   - `pbrain setup` in a new project folder.
-   - `pbrain migrate` in an existing project folder.
-   - `pbrain global setup` after at least one local project is ready.
+Report the checkout location, installed form, package validation, and plugin enablement status if applicable. The first project workflow is `project-setup` for either a new folder or an existing project. Central Brain creation is part of `project-setup` only when explicitly requested. Follow [RESOLVER.md](RESOLVER.md) for subsequent work.

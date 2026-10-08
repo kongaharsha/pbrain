@@ -9,7 +9,7 @@ Recommend the next highest-leverage maintenance action; never silently fix the b
 
 ## Workflow
 
-1. Resolve a Project Brain, the private Central Brain, or the P-Brain repository scope. Read only the applicable `AGENTS.md`, operating ledger, recent `DS-`/`EV-` records, review queues, task register, `RESOLVER.md`, and existing advisor guidance. Do not use the Git repository as a source of private project truth.
+1. Resolve a Project Brain, the private Central Brain, or the P-Brain repository scope. Read only the applicable `AGENTS.md`, thin `Workstream Ledger.md`, relevant workstream pages/action records, review queues, task register, `RESOLVER.md`, and existing advisor guidance. Do not use the Git repository as a source of private project truth.
 2. Assess: source/review freshness, unresolved decisions, stale or blocked tasks, missing source links, duplicate control state, unclear workstream ownership, archival/supersession gaps, automation collisions, and recurring feedback/benchmark failures. Identify learning opportunities only when the same correction, context failure, or workflow friction has recurred or has a clear testable prevention rule.
 3. Rank only the top 1-3 findings by leverage and urgency. Distinguish `critical`, `review`, and `opportunity`. Do not repeat unchanged low-value recommendations from a prior guidance file.
 4. Write or refresh `0. Context/P-Brain Advisor Guidance.md` only when the user asks for a saved report or an approved scheduled run. Mark it `status: advisory`, include generation date, evidence examined, findings, proposed next action, and a link to the applicable source/control record. Maintain distinct sections: `Active Guidance`, `Learning and Evaluation Candidates`, `Automation Candidates`, and `Decisions Required`.

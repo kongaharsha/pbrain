@@ -1,11 +1,11 @@
 {
   "name": "pbrain",
-  "version": "0.3.0",
+  "version": "0.4.1",
   "description": "AI-native project and Central Brain operating system for source-grounded strategy work, daily control, conversation capture, and governed improvement.",
   "author": {
     "name": "Harsha Konga",
-    "email": "",
-    "url": ""
+    "email": "harsha.konga@wolterskluwer.com",
+    "url": "https://github.com/kongaharsha"
   },
   "license": "MIT",
   "keywords": [
