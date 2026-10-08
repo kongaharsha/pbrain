@@ -1,328 +1,110 @@
 # pbrain
 
-Your AI agent is smart, but strategy projects are messy. pbrain gives Claude Code or Codex a durable working memory.
+pbrain gives strategy projects durable working memory: source-grounded context, workstream action logs, daily priorities, and a cross-project Central Brain. Use it as a Codex plugin or as markdown playbooks with an agent that can read local files.
 
-pbrain is a markdown-first project brain for strategy work: project setup, workstream ledgers, task rollups, source ingestion, research synthesis, weekly summaries, and portfolio-level operating rhythm. It can run as a Codex plugin, and it can also be used directly by Claude Code as a set of agent-readable playbooks. Each project keeps its own local brain. An optional global brain sits outside the projects and links them together.
+Project folders hold evidence and operating truth. The Central Brain summarizes and links across projects. This repository contains reusable skills and templates; project evidence and conversation archives stay in private project folders.
 
-The operating principle is simple: local project folders are the source of truth; the global brain is an index, rollup, and cockpit. It should help you resume the work, see what changed, find the source behind a decision, and understand what needs attention next.
+## Skills
 
-pbrain is the second version of the earlier [strategy-project](https://github.com/kongaharsha/claude-skills/tree/main/strategy-project) pattern. The first version created durable local project context. pbrain keeps that discipline, then adds a global portfolio brain, scheduled maintenance, ingestion, research, enrichment, weekly summaries, and cleaner routing across skills.
+pbrain ships ten skills. Read [RESOLVER.md](RESOLVER.md) to choose the smallest workflow that matches the request.
 
-> ~30 minutes to a fully working project brain. No database, no embeddings, no custom CLI. You install the Claude Code playbooks or Codex plugin, answer a few setup questions, register your project folders, and schedule recurring checks.
+| Skill | Purpose |
+|---|---|
+| `pbrain:project-setup` | Set up or retrofit a project, its workstream controls, and Central Brain registration. |
+| `pbrain:project-update` | Capture material work or reconcile changed sources into durable project memory. |
+| `pbrain:enrich-brain` | Ingest sources, research, and deepen project or stakeholder context. |
+| `pbrain:daily-prep` | Prepare a meeting-aware daily brief and action plan. |
+| `pbrain:daily-task-manager` | Add, complete, defer, review, or prioritize project and cross-project tasks. |
+| `pbrain:operating-review` | Assess operating health and publish advisory guidance. |
+| `pbrain:automation-scheduler` | Propose and, after approval, configure recurring project cadences. |
+| `pbrain:conversation-capture` | Export an explicitly selected conversation into a private project archive. |
+| `pbrain:improve-skill` | Propose a small, evidence-backed improvement from explicit feedback. |
+| `pbrain:skill-evals` | Build or run a de-identified behavioral benchmark. |
+
+Older instructions may mention `setup`, `migrate`, `global-setup`, `global-index`, `update`, `maintain`, `daily-task-prep`, `cron-scheduler`, `ingest`, `research`, or `enrich`. These are not separate skills in this package. Setup and retrofit use `project-setup`; reconciliation uses `project-update`; ingestion and research use `enrich-brain`; daily preparation uses `daily-prep`; health reviews use `operating-review`; scheduling uses `automation-scheduler`. Central Brain setup is handled by `project-setup` when explicitly requested.
 
 ## Install
 
-### Option A: Ask your agent to install it
+For an agent-assisted installation, ask your agent to read [INSTALL_FOR_AGENTS.md](INSTALL_FOR_AGENTS.md), summarize the proposed changes, and install the package for your environment.
 
-Open Claude Code or Codex and paste this into a new chat:
-
-```text
-Retrieve and follow the instructions at:
-https://raw.githubusercontent.com/kongaharsha/pbrain/main/INSTALL_FOR_AGENTS.md
-
-Read the file first, summarize what it will change, and ask before modifying local files or Codex configuration.
-```
-
-That is the recommended path. The agent will clone the repo, install it in the right place for your environment, validate the skill/playbook names, and tell you what to do next.
-
-For stable installs, prefer a tagged release URL once one exists, for example:
-
-```text
-https://raw.githubusercontent.com/kongaharsha/pbrain/v0.1.0/INSTALL_FOR_AGENTS.md
-```
-
-### Option B: Claude Code playbook install
-
-Claude Code can use pbrain without a plugin runtime. Clone the repo wherever you keep agent playbooks:
+For a markdown-playbook checkout:
 
 ```bash
 git clone https://github.com/kongaharsha/pbrain.git ~/pbrain
 ```
 
-Then open Claude Code in a project folder and paste:
+Tell your agent:
 
 ```text
-Use the pbrain playbooks at ~/pbrain.
-
-Read ~/pbrain/RESOLVER.md first. When I ask for pbrain setup, migration, global brain setup, updates, maintenance, ingestion, research, enrichment, task prep, or weekly summaries, route to the matching SKILL.md under ~/pbrain/skills/.
-
-Treat local project files as the source of truth. Keep routine decisions, changes, findings, source links, open questions, and next steps in WORKSTREAM.md ledgers. Avoid creating extra markdown files unless the output is durable.
+Use the pbrain playbooks at ~/pbrain. Read RESOLVER.md first and follow the
+matching SKILL.md under skills/. Project folders are the source of truth;
+keep the Central Brain as a compact index and rollup.
 ```
 
-If you want the instruction to persist for that project, add the same guidance to the project's `CLAUDE.md`.
-
-### Option C: Codex plugin install
-
-Prerequisite: Git must be installed. If `git --version` does not work, install Git and reopen your terminal.
-
-Clone the repo directly into your Codex plugins folder:
-
-```bash
-mkdir -p ~/.codex/plugins
-git clone https://github.com/kongaharsha/pbrain.git ~/.codex/plugins/pbrain
-```
-
-On Windows PowerShell, the same command is:
+For a Codex plugin checkout on Windows:
 
 ```powershell
 New-Item -ItemType Directory -Force -Path "$HOME\.codex\plugins"
 git clone https://github.com/kongaharsha/pbrain.git "$HOME\.codex\plugins\pbrain"
 ```
 
-Restart Codex. If the plugin appears, you are done.
+Enable that local plugin through your host's plugin registration mechanism. Registration may be required in addition to cloning. The package's entry point is [.codex-plugin/plugin.json](.codex-plugin/plugin.json), with skills under `./skills/`. See the installation guide for checks and update instructions.
 
-To update later:
+## First run
 
-```bash
-git -C ~/.codex/plugins/pbrain pull
-```
+1. Open your project folder and ask for `pbrain:project-setup`. Preserve existing sources and useful folder conventions.
+2. If you want cross-project controls, provide a separate private Central Brain folder and explicitly ask `project-setup` to create or reconcile it and register the project.
+3. Use `project-update` after material work or changed evidence. Use `enrich-brain` for source ingestion or research.
+4. Use `daily-prep` for priorities, `daily-task-manager` for task changes, and `operating-review` for health checks.
+5. Ask `automation-scheduler` to propose a cadence when recurring checks would help. Review its schedule and prompt before creation.
 
-On Windows PowerShell:
-
-```powershell
-git -C "$HOME\.codex\plugins\pbrain" pull
-```
-
-If the plugin does not appear after restart, open Codex and paste:
+For example:
 
 ```text
-Enable the local Codex plugin at:
-~/.codex/plugins/pbrain
-
-Make sure it is registered as plugin name "pbrain" and that the visible skill names use the pbrain namespace, for example pbrain:setup and pbrain:migrate.
+Use pbrain:project-setup in this folder. Preserve the source library and
+existing folder structure. Create a concise Workstream Ledger.md dashboard
+and one Workstream - <Name>.md page for each active workstream in the
+existing context folder. Register the project in my configured Central
+Brain if one exists; flag any missing location rather than guessing it.
 ```
 
-## First Run
+## Operating model
 
-Set up pbrain in this order.
-
-### 1. Set up each project
-
-For a new or mostly empty project folder, open Claude Code or Codex in that folder and paste:
-
-```text
-Use pbrain setup in this folder.
-
-If you are in Codex, use /pbrain:setup. If you are in Claude Code, read the setup playbook at ~/pbrain/skills/setup/SKILL.md and follow it.
-
-Create a local pbrain for this project. Set up AGENTS.md, the context folder, folder map, TODO & Ideas, writing standards, and an initial workstream ledger.
-
-Before writing, check whether a global pbrain already exists at:
-C:\Users\<your-user-name>\Project Brain\
-
-If the global pbrain exists, register this project in it. If it does not exist, finish the local setup and tell me to run global setup next.
-```
-
-For an existing project folder with files already in it, open Claude Code or Codex in that folder and paste:
-
-```text
-Use pbrain migrate in this folder.
-
-If you are in Codex, use /pbrain:migrate. If you are in Claude Code, read the migrate playbook at ~/pbrain/skills/migrate/SKILL.md and follow it.
-
-Add pbrain to this existing project without moving, deleting, or renaming existing files. Scan the folder, identify workstreams, preserve the current folder structure, create or update AGENTS.md, create the context layer, and add WORKSTREAM.md ledgers only where they are useful.
-
-Avoid markdown sprawl. Routine decisions, changes, findings, source links, open questions, and next steps should go into the relevant WORKSTREAM.md ledger.
-
-Before writing, check whether a global pbrain already exists at:
-C:\Users\<your-user-name>\Project Brain\
-
-If the global pbrain exists, register this project in it. If it does not exist, finish the local migration and tell me to run global setup next.
-```
-
-### 2. Create the global brain
-
-After at least one project has a local pbrain, run:
-
-```text
-Use pbrain global setup.
-
-If you are in Codex, use /pbrain:global-setup. If you are in Claude Code, read the global setup playbook at ~/pbrain/skills/global-setup/SKILL.md and follow it.
-
-Create the global pbrain at:
-C:\Users\<your-user-name>\Project Brain\
-
-Ask me for the project folders I want tracked. For each folder, check whether it already has a local pbrain. If it does not, route that folder through pbrain migrate before registering it.
-
-Create the global portfolio files:
-PROJECTS.md
-PORTFOLIO.md
-TASKS.md
-INTERDEPENDENCIES.md
-DAILY.md
-weekly/
-projects/
-
-The global brain should link back to local project folders. Do not duplicate detailed workstream context.
-```
-
-### 3. Refresh the global index
-
-After global setup, run:
-
-```text
-Use pbrain global index.
-
-If you are in Codex, use /pbrain:global-index. If you are in Claude Code, read the global index playbook at ~/pbrain/skills/global-index/SKILL.md and follow it.
-
-Scan all registered projects in the global pbrain. Refresh the project registry, active project status, stale workstreams, cross-project dependencies, and links back to local WORKSTREAM.md files.
-
-If a registered project is missing a valid local pbrain, flag it and recommend pbrain migrate for that folder.
-```
-
-### 4. Schedule recurring maintenance
-
-Run:
-
-```text
-Use pbrain cron scheduler.
-
-If you are in Codex, use /pbrain:cron-scheduler. If you are in Claude Code, read the cron scheduler playbook at ~/pbrain/skills/cron-scheduler/SKILL.md and use the prompts below manually or in your preferred scheduler.
-
-Set up these recurring pbrain automations:
-
-1. Daily operating brief every weekday at 8:00 AM local time.
-Prompt: Use /pbrain:daily-task-prep. Read the global pbrain if it exists, then read the relevant local project pbrains. Produce today's priorities, P0-P3 tasks, blockers, meetings or open threads if available, and recommended next actions. Link every task back to the local project or WORKSTREAM.md source.
-
-2. Weekly project maintenance every Friday at 3:00 PM local time.
-Prompt: Use /pbrain:update and /pbrain:maintain across every project registered in the global pbrain. Refresh .context, TODO & Ideas, folder maps, and WORKSTREAM.md ledgers from recent file changes. Check for stale ledgers, missing source links, orphan folders, bloated TODOs, and outdated folder maps. Do not create unnecessary markdown files.
-
-3. Weekly portfolio refresh every Friday at 4:00 PM local time.
-Prompt: Use /pbrain:global-index. Refresh PROJECTS.md, PORTFOLIO.md, TASKS.md, INTERDEPENDENCIES.md, and stale project indicators. Keep the global pbrain as a rollup and link back to local source-of-truth files.
-
-4. End-of-week summary every Friday at 4:30 PM local time.
-Prompt: Use /pbrain:eow-summary. Scan all workstream ledgers and relevant markdown files changed this week. Write a concise weekly summary covering key accomplishments, decisions, insights, risks, blockers, source links, and next-week priorities. Save it under the global pbrain weekly folder if a global pbrain exists; otherwise save it in the local project context.
-
-Before creating each automation, show me the proposed schedule and prompt for confirmation.
-```
-
-## What Gets Created
-
-### Local project brain
-
-Each project keeps its own local brain. This is authoritative.
-
-| File or folder | Purpose |
+| Location | Responsibility |
 |---|---|
-| `AGENTS.md` | Project operating instructions and the default Mira persona. |
-| `.context/` | Durable project context, folder map, writing standards, and current priorities. |
-| `TODO & Ideas.md` | Short current task and idea tracker, not a giant backlog. |
-| `Folder Map.md` | Navigation guide for the project folder. |
-| `workstreams/<name>/WORKSTREAM.md` | Canonical workstream ledger. |
+| Project `AGENTS.md` | Declares the operating model, context paths, and source-filing rules. |
+| Context `Workstream Ledger.md` | Thin dashboard and cross-workstream P0-P3 priority register. |
+| Context `Workstream - <Name>.md` | Compiled current truth, live tasks, and timestamped source-linked action log. |
+| `Project Context.md`, `Stakeholder Map.md`, `Folder Map.md` | Durable framing, people, and navigation. |
+| Central Brain | `PROJECTS.md`, compact `PORTFOLIO.md`, cross-project-only `TASKS.md`, `INTERDEPENDENCIES.md`, and `Improvement Backlog.md`. |
+| Project conversation archive | Explicitly approved exports; private evidence, outside this repository. |
 
-The default agent persona is **Mira**: an engagement-manager-level strategy partner who is MECE, storyline-first, interdependency-aware, warm but direct, careful about fact versus inference, and optimized for decision support.
+Preserve existing `WORKSTREAM.md` files and older ledgers as historical sources. A project may declare a distributed-ledger exception; follow its instructions rather than creating competing control views. Some bundled templates support these existing conventions and should be adapted to the operating model declared in the project's `AGENTS.md`.
 
-### Global portfolio brain
+Routine project memory goes into the relevant workstream page. Update the thin dashboard only when status, ownership, outcomes, priorities, or the next control point changes. Link decisions and tasks to their sources, distinguish facts from assumptions, and avoid duplicate TODOs or indexes.
 
-The global brain lives outside project folders, usually:
+Transcript routing follows any review queue declared by the project. Advisory guidance and improvement candidates never override operating truth. Reusable evaluation cases and improvements must be approved and de-identified before entering this repository.
 
-```text
-C:\Users\<your-user-name>\Project Brain\
-```
-
-| File or folder | Purpose |
-|---|---|
-| `PROJECTS.md` | Registry of tracked projects and links to local pbrains. |
-| `PORTFOLIO.md` | Current cross-project status, priorities, risks, and stale items. |
-| `TASKS.md` | Cross-project P0-P3 task rollup. |
-| `INTERDEPENDENCIES.md` | Dependencies across projects, decisions, teams, and stakeholders. |
-| `DAILY.md` | Daily operating brief surface. |
-| `weekly/` | End-of-week summaries. |
-| `projects/` | Lightweight project index pages that link back to local project folders. |
-
-The global brain should not become a second copy of every project. It should summarize, index, and link.
-
-## The Skills
-
-pbrain ships 15 skills/playbooks. The resolver (`RESOLVER.md`) tells the agent which workflow to use for each task.
-
-### Setup
-
-| Skill | What it does |
-|---|---|
-| `pbrain:setup` | Creates a local pbrain in a new project folder. |
-| `pbrain:migrate` | Adds pbrain to an existing project while preserving existing files and folder structure. |
-
-### Global brain
-
-| Skill | What it does |
-|---|---|
-| `pbrain:global-setup` | Creates the global portfolio brain and registers tracked project folders. |
-| `pbrain:global-index` | Refreshes cross-project status, stale items, dependencies, and links. |
-| `pbrain:global` | Answers portfolio-level questions and manages cross-project context. |
-
-### Daily operations
-
-| Skill | What it does |
-|---|---|
-| `pbrain:daily-task-manager` | Manages P0-P3 tasks across local and global context. |
-| `pbrain:daily-task-prep` | Produces a daily operating brief. |
-| `pbrain:cron-scheduler` | Creates recurring Codex automations for daily prep, weekly maintenance, portfolio refreshes, and weekly summaries. |
-
-### Maintenance and reporting
-
-| Skill | What it does |
-|---|---|
-| `pbrain:update` | Reconciles recent file changes, decisions, and workstream movement into local context and ledgers. |
-| `pbrain:maintain` | Audits stale ledgers, missing links, bloated TODOs, orphan folders, and outdated maps. |
-| `pbrain:eow-summary` | Writes an end-of-week note with accomplishments, plan for next week, insights, risks, decisions, and links. |
-
-### Knowledge work
-
-| Skill | What it does |
-|---|---|
-| `pbrain:ingest` | Ingests PDFs, docs, decks, spreadsheets, transcripts, emails, articles, links, and notes into the right ledger. |
-| `pbrain:research` | Runs project-aware research and synthesis with source-backed recommendations. |
-| `pbrain:enrich` | Deepens context on a workstream, stakeholder, company, market, competitor, decision, or theme. |
-| `pbrain:router` | General router when the user does not know which pbrain skill to invoke. |
-
-## How It Works
-
-```text
-New signal arrives: file, note, meeting, email, article, transcript, decision, task
-  -> pbrain resolves scope: local project, global portfolio, or both
-  -> pbrain reads AGENTS.md, context files, folder maps, and active WORKSTREAM.md ledgers
-  -> routine project memory is written to the smallest authoritative ledger
-  -> durable outputs, substantial research briefs, transcripts, and reusable analysis may become separate files
-  -> if a global pbrain exists, project status and task rollups are refreshed there
-  -> scheduled maintenance keeps context from going stale
-```
-
-## Design Rules
-
-- Local project folders are the source of truth.
-- The global brain is a cockpit, not a duplicate archive.
-- `WORKSTREAM.md` is the canonical ledger for routine workstream memory.
-- Avoid markdown sprawl.
-- Preserve existing folder structures when migrating.
-- Link decisions, claims, and tasks back to source files wherever possible.
-- Distinguish fact, inference, recommendation, and open question.
-- Re-running setup, update, maintain, or index should not create duplicate entries.
-
-## Repository Layout
+## Repository layout
 
 ```text
 .codex-plugin/plugin.json
+INSTALL_FOR_AGENTS.md
 RESOLVER.md
 assets/templates/
 skills/
-  router/
-  setup/
-  migrate/
-  global-setup/
-  global-index/
-  global/
+  automation-scheduler/
+  conversation-capture/
+  daily-prep/
   daily-task-manager/
-  daily-task-prep/
-  cron-scheduler/
-  update/
-  maintain/
-  eow-summary/
-  enrich/
-  research/
-  ingest/
+  enrich-brain/
+  improve-skill/
+  operating-review/
+  project-setup/
+  project-update/
+  skill-evals/
 ```
 
-## Lineage
+## Lineage and license
 
-pbrain builds on the original [strategy-project README](https://github.com/kongaharsha/claude-skills/blob/main/strategy-project/README.md), with inspiration from brain-style operating systems such as [GBrain](https://github.com/garrytan/gbrain). It intentionally stays markdown-first in this version: no database, embeddings, MCP server, or custom CLI dependency is required.
+pbrain builds on the original [strategy-project](https://github.com/kongaharsha/claude-skills/tree/main/strategy-project) pattern and takes inspiration from [GBrain](https://github.com/garrytan/gbrain). It stays markdown-first: no database, embeddings, or custom server is required by this package. Licensed under [MIT](LICENSE).

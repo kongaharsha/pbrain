@@ -12,22 +12,23 @@ Set up one coherent operating layer for a new or existing project without distur
 1. Resolve the target folder and inspect its instructions, context layer, workstreams, sources, deliverables, and dates.
 2. Detect whether the project is new, partially structured, or already operating. Preserve useful conventions such as `0. Context/` or `.context/` and all existing source files.
 3. Resolve the private OneDrive Central Brain from the user's stated path or project instructions. Create it when absent only when asked, with `AGENTS.md`, `PROJECTS.md`, `PORTFOLIO.md`, `TASKS.md`, `INTERDEPENDENCIES.md`, and `Improvement Backlog.md`.
-4. Create or reconcile the local operating layer:
+4. Create or reconcile the local operating layer in the existing context folder:
    - `AGENTS.md`
    - `Project Context.md`
-   - `Project Operating Ledger.md` — concise current priorities, tasks, cross-cutting outcomes, workstream state, and decision positions
-   - `Evidence & Evolution Log.md` — append-only, timestamped, source-linked history
+   - `Workstream Ledger.md` — the thin factual dashboard: active-workstream status, owner/decision right, next control point, and one cross-workstream P0-P3 priority register
+   - `Workstream - <Name>.md` — one page per active workstream; compiled current truth and live tasks above `---`, source-linked dated action log below it
    - `Stakeholder Map.md` when stakeholder coordination matters
    - `Folder Map.md`
-5. Preserve an existing `Workstream Ledger.md` as historical reference. Migrate only the active control state into the operating ledger; do not copy the full history.
+   - an optional declared `Conversation Archive/` location, created only on the first explicitly approved capture
+5. Preserve existing `WORKSTREAM.md` files and prior ledgers as historical/source reference. Do not introduce `Project Operating Ledger.md` or a separate `Evidence & Evolution Log.md` into this standard model. Migrate only active control state when the user asks for a retrofit.
 6. Register the project in the Central Brain with its OneDrive path, context folder, declared current operating view, status, and a compact portfolio card.
 
 ## Rules
 
 - Do not move, rename, delete, or rewrite user source files during setup.
-- Seed each active outcome or workstream with a clear current state, 1–3 actionable tasks, owner / decision right, dependency, done condition, and source or evolution-log link.
+- Seed each active outcome or workstream with a clear current state, 1-3 actionable tasks, owner / decision right, dependency, done condition, and source or action-log link.
 - Treat cross-cutting outcomes as first-class records. Link a task to every relevant outcome or workstream instead of duplicating it.
-- Make AGENTS.md explicit about the two layers, source filing, and the legacy status of previous TODOs or ledgers.
+- Make AGENTS.md explicit about the thin-index/workstream-page model, source filing, transcript review queues, and the legacy status of previous TODOs or ledgers.
 - Record the Central Brain location in project instructions when configured. Keep the P-Brain Git checkout separate; never copy project evidence, conversation exports, or Central Brain records into it.
 - Do not create a separate project TODO by default.
 

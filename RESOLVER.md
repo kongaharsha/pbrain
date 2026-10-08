@@ -21,9 +21,9 @@ P-Brain has eight everyday skills and two explicit improvement skills. Use the s
 - **Central Brain:** a separately configured private OneDrive folder is the cross-project source of truth for the portfolio index, cross-project tasks, aggregate advisor guidance, and an improvement backlog. It links to project brains; it does not mirror their evidence.
 - **P-Brain repository:** a local Git checkout is the shareable operating-system layer: skills, templates, generic tests, and approved de-identified improvements. It must never be used as a working project archive or Central Brain.
 - Each project declares its operating model in `AGENTS.md`.
-- The preferred local authority is a concise context-folder `Project Operating Ledger.md`; `Evidence & Evolution Log.md` is its append-only, timestamped, source-linked history. Existing `Workstream Ledger.md` files may remain as reference history.
-- Tasks can sit under a workstream or a cross-cutting outcome. Link records by stable IDs instead of duplicating them.
-- File a transcript once by primary decision area; link secondary relevance from the operating ledger and evolution log.
+- The local authority is a concise context-folder `Workstream Ledger.md` plus one `Workstream - <Name>.md` page per active workstream. The ledger is the thin dashboard; each workstream page holds compiled truth and its timestamped, source-linked action log.
+- The P0-P3 priority register lives in `Workstream Ledger.md`; every task maps one-to-one to a live task on its workstream page.
+- File a transcript once by primary decision area; link secondary relevance from the relevant workstream page/action log.
 - When a project declares a needs-review queue, `project-update` and `enrich-brain` present transcript-routing proposals for explicit approval before moving a transcript or changing durable project context.
 - `Project Context.md`, `Stakeholder Map.md`, and `Folder Map.md` hold only durable framing, people, and navigation.
 - The Central Brain contains `AGENTS.md`, `PROJECTS.md`, compact `PORTFOLIO.md`, cross-project-only `TASKS.md`, `INTERDEPENDENCIES.md`, and an `Improvement Backlog.md` of generalized cross-project candidates.
